@@ -6,10 +6,16 @@ This project relies on the mutool.exe utility from [MuPDF](https://mupdf.com) fo
 
 Just download the source, execute:
 
-qmake kneeboard.pro
-nmake
+- qmake kneeboard.pro
+- nmake
+
+The executable will be built in the bin folder
 
 ## Deploying
 
-On the windows platform:
+- copy the mutool.exe from [MuPDF](https://mupdf.com) in the bin directory
+- execute 'windeployqt kneeboard.exe'
+- Copy the 'styles.css' in the bin directory
+- Then it's only a copy&paste of the bin directory wherever you want
+
 
