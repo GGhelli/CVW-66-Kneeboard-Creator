@@ -1,0 +1,490 @@
+/* Gestione QMainWindow */
+QMainWindow {
+	background: rgb(54, 61, 65);
+	}
+
+QMenuBar {
+	background: rgb(54, 61, 65);
+}
+
+
+QDialog {
+	background: rgb(54, 61, 65);
+}
+
+QFrame {
+	background-color: rgb(134, 141, 145);
+}
+
+QSplitter {
+	background-color: rgb(54, 61, 65);
+}
+
+QLabel {
+	background: rgb(54, 61, 65);
+	}
+
+QDialog::title{
+	font: bold 10pt "MS Shell Dlg 2";
+	color: white;
+}
+
+QMainWindow::separator {
+	background: rgb(134, 141, 145);
+	width: 10px; /* when vertical */
+	height: 10px; /* when horizontal */
+ }
+ 
+QCheckBox {
+    spacing: 5px;
+}
+
+QCheckBox::indicator {
+    width: 32px;
+    height: 32px;
+}
+
+ QToolBox{
+     background: transparent;
+ }
+ 
+ QToolBox::tab {
+     background: transparent;
+ }
+ 
+ QToolBox::pane {
+     background: transparent;
+ }
+
+QTabWidget::pane { /* The tab widget frame */
+	 border: 2px solid rgb(144,41,42);
+	 border-top-right-radius: 0px;
+	 border-top-left-radius: 5px;
+	 border-bottom-right-radius: 5px;
+	 border-bottom-left-radius: 5px;
+ }
+
+QTabBar::tab {
+    border-radius: 5px;
+  	background-color: rgb(134, 141, 145);
+	padding: 5px;
+	text-align: center;
+	height: 30px;
+	width: 250px;
+	font: 75 rgb(134, 141, 145);
+    margin-left:3px;
+    margin-right:3px;
+}
+
+QTabBar::tab:selected {
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+  margin: 0px;
+  background-color: rgb(144,41,42);
+  border: 2px solid rgb(144,41,42);
+}
+
+QTabBar::tab:hover {
+  background-color: rgb(144,41,42);
+  border-color: rgb(144,41,42);
+}
+
+QTabBar::tab:disabled {
+    background-color: rgb(54, 61, 65);
+    color:rgb(54, 61, 65);
+}
+
+
+/* Gestione QToolBar */
+QToolBar {
+	border-top: 1px;
+	border: 2px solid rgb(134, 141, 145);
+	min-height:40px;
+}
+
+/* Gestione QDockWidget */
+
+QDockWidget::title {
+	text-align: left;
+	border: 2px solid white;
+	padding: 5px;
+	border-radius: 5px;
+	background: rgb(54, 61, 65);
+ }
+
+QToolButton:checked {
+	 background-color: rgb(134, 141, 145);
+ }
+
+QToolButton {
+        border: none;
+        border-radius: 5px;
+        background-color: rgb(134, 141, 145);
+        border-color: transparent;
+        padding: 4px;
+}
+
+QToolButton:hover {
+	background-color: rgb(134, 141, 145);
+	border: 2px solid rgb(144,41,42);
+}
+
+QToolButton:pressed {
+	background-color: rgb(144,41,42);
+}
+
+QPushButton {
+	border: none;
+	border-radius: 5px;
+	background-color: rgb(134, 141, 145);
+	border-color: transparent;
+	padding: 4px;
+}
+
+QPushButton:hover {
+	background-color: rgb(134, 141, 145);
+	border: 2px solid rgb(144,41,42);
+}
+
+QPushButton:pressed {
+	background-color: rgb(144,41,42);
+}
+ 
+/*QPushButton:checked {
+	background-color: rgb(35,166,56);
+}
+*/
+QPushButton:disabled {
+	background-color: rgb(206,202,191);
+}
+
+QToolButton[buttonType="graphicButton"]{
+	border: none;
+	background-color: rgb(134, 141, 145);;
+	border-color: transparent;
+	padding: 0px;
+}
+
+
+CapturePreview QCheckBox::indicator:checked
+{
+	image: url(:/icons/spunta_verde.svg);
+}
+CapturePreview QCheckBox::indicator:unchecked
+{
+	image: url(:/icons/spunta_rossa.svg);
+}
+
+
+QToolButton[buttonType="graphicButton"]:hover {
+	background-color: rgb(134, 141, 145);
+	border: 2px solid rgb(144,41,42);
+}
+
+QToolButton[buttonType="graphicButton"]:pressed {
+	background-color: rgb(144,41,42);
+}
+
+QGroupBox {
+	color: rgb(255,255,255);
+	background-color: rgb(134, 141, 145);
+        c
+	/*border: 2px solid rgb(134, 141, 145);*/
+	border-radius: 5px;
+}
+
+QMenu {
+
+        color: rgb(255,255,255);
+        background-color: transparent;
+        border: 20px;
+        border-radius: 5px;
+
+
+}
+
+QMenu::item{
+        background-color: rgb(134, 141, 145);
+
+}
+
+QMenu::item:hover{
+	background-color: rgb(54, 61, 65);
+}
+
+QMenu::item:selected{
+	background-color: rgb(54, 61, 65);
+}
+QTreeWidget {
+	color: rgb(54, 61, 65);
+	background-color: rgb(134, 141, 145);
+	border: 2px solid rgb(134, 141, 145);
+	border-radius: 5px;
+}
+
+QTreeWidget::item:hover {
+	color: white;
+	background-color: rgb(54, 61, 65);
+}
+
+QTreeWidget::item:selected {
+	color: white;
+	border: 2px solid #fff;
+	background-color: rgb(144,41,42);
+}
+
+QTreeView {
+	color: rgb(54, 61, 65);
+	background-color: rgb(134, 141, 145);
+	border: 2px solid rgb(134, 141, 145);
+	border-radius: 5px;
+}
+
+QTreeView::item:hover {
+	color: white;
+	background-color: rgb(54, 61, 65);
+}
+QTreeView::item:selected {
+	color: white;
+	border: 2px solid #fff;
+	background-color: rgb(144,41,42);
+}
+
+QListWidget {
+	color: rgb(54, 61, 65);
+	background-color: rgb(134, 141, 145);
+	border: transparent;
+	border-radius: 5px;
+}
+
+QListWidget::item:hover {
+	color: white;
+	background-color: rgb(54, 61, 65);
+}
+
+QLineEdit {
+	color: rgb(54, 61, 65);
+	background-color: rgb(206,202,191);
+	border-color: transparent;
+	border-radius: 5px;
+}
+
+QLineEdit:disabled {
+	background-color: rgb(230,230,230);
+}
+
+QLabel[labelType="labels"]{
+	min-height: 30px;
+	color: rgb(54, 61, 65);
+	background-color: rgb(144,41,42);
+	border-color: transparent;
+	border-radius: 5px;
+}
+
+QLabel[customColor="red"] {
+  color: red;
+}
+QLabel[customColor="green"] {
+  color: green;
+}
+
+QDateEdit {
+	color: white;
+	background-color: rgb(134, 141, 145);
+	border: 2px solid white;
+	border-radius: 5px;
+}
+
+QTimeEdit {
+	color: white;
+	background-color: rgb(134, 141, 145);
+	border: 2px solid white;
+	border-radius: 5px;
+}
+
+QTimeEdit:disabled {
+	background-color: rgb(206,202,191);
+}
+
+QTimeEdit::drop-down {
+	background-color: rgb(206,202,191);
+	subcontrol-origin: padding;
+	subcontrol-position: top right;
+	border-color: transparent;
+	border-left-width: 1px;
+	border-right-width: 1px;
+	border-left-color: darkgray;
+	border-left-style: solid;
+	}
+
+QTimeEdit::up-button {
+    subcontrol-origin: border;
+    subcontrol-position: top right;
+    width: 32px; 
+}
+
+QTimeEdit::down-button {
+    subcontrol-origin: border;
+    subcontrol-position: bottom right;
+    width: 32px;
+}
+
+QDateEdit:disabled {
+	background-color: rgb(206,202,191);
+}
+
+QDateEdit::drop-down {
+	background-color: rgb(206,202,191);
+	subcontrol-origin: padding;
+	subcontrol-position: top right;
+	border-color: transparent;
+	border-left-width: 1px;
+	border-left-color: darkgray;
+	border-left-style: solid;
+	border-top-right-radius: 3px;
+	border-bottom-right-radius: 3px;
+	}
+	
+QDateEdit::up-button {
+    subcontrol-origin: border;
+    subcontrol-position: top right;
+ 
+    width: 16px; /* 16 + 2*1px border-width = 15px padding + 3px parent border */
+	border-color: transparent;
+}
+ 
+QDateEdit::down-button {
+    subcontrol-origin: border;
+    subcontrol-position: bottom right;
+ 
+    width: 16px;
+	border-color: transparent;
+}	
+	
+QComboBox [comboType="nolineStudy"]{
+	border: transparent;
+}
+
+QComboBox {
+	color: white;
+	background-color: rgb(134, 141, 145);
+	border: 2px solid white;
+	border-radius: 5px;
+}
+
+QComboBox:disabled {
+	background-color: rgb(206,202,191);
+}
+
+QComboBox::item {
+	padding: 5px;
+}
+
+QComboBox QAbstractItemView {
+     border: 2px solid white;
+	 background-color: rgb(206,202,191);	 
+     selection-background-color: rgb(134, 141, 145);
+ 	 border-radius: 5px; /* same radius as the QComboBox */
+	 padding: 4px
+}
+
+QComboBox::drop-down {
+	 background-color: rgb(206,202,191);
+	 subcontrol-origin: padding;
+	 subcontrol-position: top right;
+	 border-left-width: 2px;
+	 border-left-color: darkgray;
+	 border-left-style: solid; /* just a single line */
+	 border-top-right-radius: 5px; /* same radius as the QComboBox */
+	 border-bottom-right-radius: 5px;
+ }
+
+QLineEdit [editType="viewOnly"]{
+	background: transparent;
+	background-color: transparent;
+	font: bold 10pt "MS Shell Dlg 2";
+	color: rgb(255,255,255);
+}
+
+QToolBox {
+	 background: rgb(54, 61, 65);
+	 border-radius: 5px;
+	 color: transparent;
+ }
+
+QToolBox::tab {
+	 background: rgb(134, 141, 145);
+	 font: 75 10pt  " MS Shell Dlg 2 ";
+	 border-radius: 5px;
+	 color: rgb(54, 61, 65);
+ }
+
+QToolBox::tab:selected { /* italicize selected tabs */
+	 font: bold 10pt  " MS Shell Dlg 2 ";
+	 color:white;
+	 background: rgb(144,41,42);
+ }
+
+ScannerImageView{
+	 border: 1px solid rgb(134, 141, 145);
+ }
+
+ScannerImageView:active{
+	 border: 2px solid rgb(144,41,42);
+ }
+
+QScrollBar:vertical {               
+       border: 2px solid rgb(206,202,191);
+       border-radius: 5px;
+       background: rgb(54, 61, 65);
+       width:40px;    
+       margin: 0px 0px 0px 0px;
+    }
+    
+QScrollBar::handle:vertical {
+       background: rgb(54, 61, 65);
+       min-height: 0px;
+   
+   }
+   
+QScrollBar::add-line:vertical {
+       background: rgb(54, 61, 65);
+       height: px;
+       subcontrol-position: bottom;
+       subcontrol-origin: margin;
+    }
+	
+QScrollBar::sub-line:vertical {
+       background: rgb(54, 61, 65);
+       height: 0px;
+       subcontrol-position: top;
+       subcontrol-origin: margin;
+    }
+ 
+/* Gestione Font dei vari widget */
+QHeaderView { font: 75 12pt  " MS Shell Dlg 2 "; color: rgb(54, 61, 65)}
+QTabBar::tab  { font: 75 12pt "MS Shell Dlg 2"; color: rgb(54, 61, 65); }
+QTabBar::tab:selected  { font: bold 12pt "MS Shell Dlg 2"; color: rgb(255,255,255); }
+
+QDateEdit { font: 75 12pt  " MS Shell Dlg 2 "; }
+QTimeEdit { font: 75 12pt  " MS Shell Dlg 2 "; }
+QListWidget { font: bold 12pt  " MS Shell Dlg 2 "; }
+QTreeWidget { font: 75 12pt  " MS Shell Dlg 2 "; }
+QTreeView { font: 75 12pt  " MS Shell Dlg 2 "; }
+QDockWidget { font: bold 12pt  " MS Shell Dlg 2 "; color: rgb(255,255,255);}
+QMenu 	{ font: 75 12pt  "MS Shell Dlg 2 "; }
+QMenuBar 	{ font: bold 12pt  "MS Shell Dlg 2 "; }
+QLineEdit 	{ font: 75 12pt "MS Shell Dlg 2"; }
+QLabel[labelType="listViewFirst"] { font: bold 12pt "MS Shell Dlg 2"; }
+QLabel[labelType="listView"] { font: 12pt "MS Shell Dlg 2"; }
+QLabel[labelType="labels"] { font: bold 12pt "MS Shell Dlg 2"; }
+QToolButton { font: bold 12pt "MS Shell Dlg 2"; color: rgb(255,255,255); }
+QPushButton { font: bold 12pt "MS Shell Dlg 2"; color: rgb(255,255,255); }
+QLabel      { font: 75 12pt "MS Shell Dlg 2"; color: rgb(206,202,191); }
+QMenuBar      { font: 75 12pt "MS Shell Dlg 2"; color: rgb(206,202,191); }
+QCheckBox   { font: 75 12pt "MS Shell Dlg 2"; color: rgb(206,202,191); }
+QComboBox	{ font: 75 12pt "MS Shell Dlg 2"; }
+QGroupBox 	{ font: bold 12pt "MS Shell Dlg 2"; }
+QStatusBar 	{ font: bold 12pt "MS Shell Dlg 2"; }

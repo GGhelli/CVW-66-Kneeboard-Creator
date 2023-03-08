@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/">
+        <file alias="cvw-66.png">CVW_66_yellow_triangleCVN73.png</file>
+        <file>kneeboard.svg</file>
+        <file>icons/add.svg</file>
+        <file>icons/left-arrow.svg</file>
+        <file>icons/remove.svg</file>
+        <file>icons/right-arrow.svg</file>
+    </qresource>
+</RCC>
