@@ -60,6 +60,11 @@ EditDocumentWdg::~EditDocumentWdg()
     delete ui;
 }
 
+void EditDocumentWdg::setSaveFolder(QString folder)
+{
+    m_folder = folder;
+}
+
 void EditDocumentWdg::loadGroup(QString folder)
 {
     QDir groupDir(folder);

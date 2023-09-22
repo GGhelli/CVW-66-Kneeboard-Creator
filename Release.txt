@@ -1,0 +1,3 @@
+Release 1.0.0.1:
+- Added possibility to drag&drop PDF and images directly into the kneeboard list
+- Save now opens the edit dialog before actually creating the kneeboard

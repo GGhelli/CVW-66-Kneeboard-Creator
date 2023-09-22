@@ -34,6 +34,9 @@ public slots:
 
 private slots:
 
+protected:
+    bool eventFilter(QObject *obj, QEvent *event) override;
+
 private:
     Ui::KneeboardMainWnd *ui;
     friend class KneeboardMainWndData;

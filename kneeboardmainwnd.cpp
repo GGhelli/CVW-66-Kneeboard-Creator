@@ -5,12 +5,20 @@
 #include <QInputDialog>
 #include <QMessageBox>
 #include <QStandardPaths>
+#include <QDragEnterEvent>
+#include <QMimeData>
+#include <QImage>
 
 #include "kneeboardapp.h"
 #include "kneeboardmainwnd.h"
 #include "editdocumentwdg.h"
 
 #include "ui_kneeboardmainwnd.h"
+
+enum class KneeboardEntryType {
+    Group,
+    File
+};
 
 class KneeboardMainWndData {
 public:
@@ -125,10 +133,11 @@ KneeboardMainWnd::KneeboardMainWnd(QWidget *parent) :
         QMessageBox::about(this, qApp->applicationName(), tr("%1 ver.%2 by Exup for CVW-66").arg(qApp->applicationName(), qApp->applicationVersion()));
     });
 
-
     auto db = settings.value("currentDatabase").toString();
     qDebug() << db;
     ui->cmbDatabase->setCurrentText(db);
+
+    ui->lstKneeboard->installEventFilter(this);
 //    changeDatabase(ui->cmbDatabase->currentText());
 
 //    setWindowIcon(QIcon(":/kneeboard.svg"));
@@ -194,13 +203,26 @@ void KneeboardMainWnd::changeDatabase(QString dbName)
     // Load groups from default.ini
     for(auto idx=0; idx <ui->lstGroups->count(); ++idx)
     {
-        auto group = ini.value(QString("Kneeboard/groups/group%1").arg(idx)).toString();
+        auto group = ini.value(QString("Kneeboard/groups/group%1").arg(idx)).toString().split("|");
         qDebug() << group;
-        // Lok if group is defined
-        if( !group.isEmpty() && !ui->lstGroups->findItems(group, Qt::MatchFlag::MatchExactly).isEmpty() )
-            ui->lstKneeboard->addItem(group);
+        if( group.isEmpty() )
+            continue;
+        bool ok;
+        auto type = static_cast<KneeboardEntryType>(group.value(0).toUInt(&ok));
+        if( !ok || !ui->lstKneeboard->findItems(group.value(1), Qt::MatchFlag::MatchExactly).isEmpty() )
+            continue;
+        if( (type==KneeboardEntryType::Group && group.count()==2) )        // Lok if group is defined
+        {
+            auto item = new QListWidgetItem(ui->lstKneeboard, static_cast<int>(type));
+            item->setText(group.value(1));
+        }
+        else if( type==KneeboardEntryType::File && group.count()==3  )
+        {
+            auto item = new QListWidgetItem(ui->lstKneeboard, static_cast<int>(type));
+            item->setText(group.value(1));
+            item->setData(Qt::UserRole, group.value(2));
+        }
     }
-
 }
 
 void KneeboardMainWnd::editGroup(QString group)
@@ -243,7 +265,10 @@ void KneeboardMainWnd::removeGroup(QString group)
 void KneeboardMainWnd::addGroupToKneeboard(QString group)
 {
     if( ui->lstKneeboard->findItems(group, Qt::MatchFlag::MatchExactly).isEmpty() )
-        ui->lstKneeboard->addItem(group);
+    {
+        auto kneeboardGroup = new QListWidgetItem(ui->lstKneeboard, static_cast<int>(KneeboardEntryType::Group));
+        kneeboardGroup->setText(group);
+    }
 }
 
 void KneeboardMainWnd::removeGroupFromKneeboard(QString group)
@@ -295,47 +320,70 @@ void KneeboardMainWnd::save()
     settings.setValue("currentDatabase", d->m_currentDatabase);
 
     auto dbFolder = KneeboardApp::database() + "/" + d->m_currentDatabase;
-    QSettings ini(dbFolder  + "/defaults.ini", QSettings::IniFormat);
     auto saveDir = d->getBuildFolder();
     if( saveDir.isEmpty() )
-        return
-    ini.remove("Kneeboard/groups");
-    for(auto idx=0; idx <ui->lstKneeboard->count(); ++idx)
-    {
-        auto group = ui->lstKneeboard->item(idx)->text();
-        ini.setValue(QString("Kneeboard/groups/group%1").arg(idx), group);
-    }
-    ini.setValue("Kneeboard/SaveDir", saveDir);
+        return;
 
-    // Clear kneeboard
-    for(const auto &entry: QDir(saveDir).entryInfoList(QDir::Filter::Files|QDir::Filter::Dirs|QDir::Filter::NoDotAndDotDot) )
-    {
-        if( entry.isDir() )
-            entry.absoluteDir().removeRecursively();
-        else
-            QFile::remove(entry.absoluteFilePath());
-    }
+    QDialog dlg(this);
+    dlg.setLayout(new QHBoxLayout);
+    auto edit = new EditDocumentWdg(&dlg);
+    edit->setSaveFolder(saveDir);
+    dlg.layout()->addWidget(edit);
+    dlg.setWindowTitle(tr("Create kneeboard"));
+    edit->connect(edit, SIGNAL(saved()), &dlg, SLOT(accept()));
+    edit->connect(edit, SIGNAL(cancelled()), &dlg, SLOT(reject()));
+    dlg.setGeometry(geometry());
+
 
     // Save all groups to the kneeboard!
     auto imageIdx{1};
     for(auto groupIdx=0; groupIdx<ui->lstKneeboard->count(); ++groupIdx)
     {
-        auto group = ui->lstKneeboard->item(groupIdx)->text();
-        qDebug() << "Adding group" << group;
-        auto groupFolder = dbFolder + "/" + group;
-        for(const auto &entry: QDir(groupFolder).entryInfoList(QStringList()<<"*.png", QDir::Filter::Files, QDir::SortFlag::Name))
+        auto groupItem = ui->lstKneeboard->item(groupIdx);
+        auto group = groupItem->text();
+        switch( static_cast<KneeboardEntryType>(groupItem->type()) )
         {
-            auto srcImage = entry.absoluteFilePath();
-            auto srcBaseName = entry.completeBaseName().mid(4);
-            auto outImage = saveDir + QString("/%1-%2.png").arg(imageIdx, 3, 10, QChar('0')).arg(srcBaseName);
-            qDebug() << "Copying" << srcImage << "to" << outImage;
-            if( !QFile::copy(srcImage, outImage) )
-                QMessageBox::critical(this, tr("Build kneeboard"), tr("Cannot save [%1] to [%2]").arg(srcImage, outImage));
-            imageIdx++;
+        case KneeboardEntryType::Group:
+        {
+            qDebug() << "Adding group" << group;
+            auto groupFolder = dbFolder + "/" + group;
+            edit->addFolder(groupFolder);
+            break;
+        }
+        case KneeboardEntryType::File:
+        {
+            auto file = groupItem->data(Qt::UserRole).toString();
+            edit->addFile(file, "");
+            break;
+        }
+        default:
+            break;
         }
     }
-
-    QMessageBox::information(this, tr("Build kneeboard"), tr("The kneeboard has been succesfully built"));
+    if( dlg.exec()==QDialog::Accepted )
+    {
+        // Save everything
+        QSettings ini(dbFolder  + "/defaults.ini", QSettings::IniFormat);
+        ini.remove("Kneeboard/groups");
+        for(auto idx=0; idx <ui->lstKneeboard->count(); ++idx)
+        {
+            auto groupItem = ui->lstKneeboard->item(idx);
+            auto group = groupItem->text();
+            switch(static_cast<KneeboardEntryType>(groupItem->type()))
+            {
+            case KneeboardEntryType::Group:
+                ini.setValue(QString("Kneeboard/groups/group%1").arg(idx), QString("%1|%2").arg(groupItem->type()).arg(group));
+                break;
+            case KneeboardEntryType::File:
+                ini.setValue(QString("Kneeboard/groups/group%1").arg(idx), QString("%1|%2|%3").arg(groupItem->type()).arg(group, groupItem->data(Qt::UserRole).toString()));
+                break;
+            }
+        }
+        ini.setValue("Kneeboard/SaveDir", saveDir);
+        ini.sync();
+    }
+//    editKneeboard();
+//    QMessageBox::information(this, tr("Build kneeboard"), tr("The kneeboard has been succesfully built"));
 }
 
 void KneeboardMainWnd::changeOutputDir()
@@ -353,3 +401,52 @@ void KneeboardMainWnd::editKneeboard()
     auto kneeboardFolder = d->getBuildFolder();
     d->editGroup(kneeboardFolder, tr("Edit kneeboard"));
 }
+
+
+bool KneeboardMainWnd::eventFilter(QObject *obj, QEvent *event)
+{
+    if( obj!=ui->lstKneeboard )
+        return QObject::eventFilter(obj, event);
+    auto acceptUrl = [](const QUrl &url) {
+        if( !(url.scheme() == "file"  && url.isLocalFile()) )
+            return false;
+        QFileInfo file(url.toLocalFile());
+        if( !file.isFile() && file.suffix().toLower()!="pdf" )
+            return false;
+        return true;
+
+    };
+
+    switch(event->type())
+    {
+    case QEvent::DragEnter:
+    {
+        QDragEnterEvent *enter = dynamic_cast<QDragEnterEvent*>(event);
+        for(const auto &url: enter->mimeData()->urls()) // Accept only files and PDF/image files
+        {
+            qDebug() << url;
+            if( !acceptUrl(url) )
+                return QObject::eventFilter(obj, event);
+        }
+        enter->acceptProposedAction();
+        return true;
+    }
+    case QEvent::Drop:
+    {
+        auto *drop = dynamic_cast<QDropEvent*>(event);
+        for(const auto &url: drop->mimeData()->urls())
+        {
+            QFileInfo file(url.toLocalFile());
+            auto item = new QListWidgetItem(ui->lstKneeboard, static_cast<int>(KneeboardEntryType::File));
+            item->setText(file.fileName());
+            item->setToolTip(file.absoluteFilePath());
+            item->setData(Qt::UserRole, file.absoluteFilePath());
+        }
+        return true;
+    }
+    default:
+        break;
+    }
+    return QObject::eventFilter(obj, event);
+}
+

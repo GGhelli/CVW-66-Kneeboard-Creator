@@ -13,7 +13,6 @@ KneeboardApp::KneeboardApp(int &argc, char *argv[]) :
     setApplicationVersion(APP_VERSION);
     setApplicationDisplayName(QString(APP_DISPLAY_NAME).replace("_", " "));
 
-
     auto dbPath = dataRoot() + "/database";
     if( !QDir().mkpath(dbPath) )
         QMessageBox::critical(nullptr, tr("Kneeboard"), tr("Cannot create data path [%1]").arg(dbPath));

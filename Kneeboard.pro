@@ -7,7 +7,7 @@ DESTDIR = bin
 
 APP_NAME = "CVW66-Kneeboard"
 APP_DISPLAY_NAME="DCS_Kneeboard_creator_for_CVW66"
-APP_VERSION="1.0.0.0"
+APP_VERSION="1.0.0.1"
 ORGANIZATION_NAME="CVW-66"
 ORGANIZATION_DOMAIN="https://www.cvw-66.com"
 
@@ -49,6 +49,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 DISTFILES += \
     CVW_66_yellow_triangleCVN73.png \
+    Release.txt \
     kneeboard.ico \
     kneeboard.ini \
     kneeboarddb.xml

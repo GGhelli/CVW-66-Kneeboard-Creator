@@ -15,6 +15,8 @@ public:
     explicit EditDocumentWdg(QWidget *parent = nullptr);
     ~EditDocumentWdg();
 
+    void setSaveFolder(QString folder);
+
 public slots:
     void loadGroup(QString folder);
     void addFile();
